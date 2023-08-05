@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # Yolo 로드
-net = cv2.dnn.readNet("yolov3.cfg", "yolov3.weights")
+net = cv2.dnn.readNet("yolov3-tiny.cfg", "yolov3-tiny.weights")
 classes = []
 with open("Open-SW-Developer-Contest/object recognition/person/coco.names", "r") as f:
     classes = [line.strip() for line in f.readlines()]
@@ -12,7 +12,7 @@ colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
 
 # 이미지 가져오기
-img = cv2.imread("Open-SW-Developer-Contest/object recognition/person/water3.jpg")
+img = cv2.imread("sample.jpg")
 img = cv2.resize(img, None, fx=0.4, fy=0.4)
 height, width, channels = img.shape
 

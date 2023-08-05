@@ -4,6 +4,7 @@ Open SW Developer Contest
 
 ## **Git Commit Rules**
 
+
 ### **1. Commit Messages Structure**
 ~~~python3
 Type: Subject

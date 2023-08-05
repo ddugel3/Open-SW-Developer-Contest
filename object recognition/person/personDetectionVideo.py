@@ -3,7 +3,7 @@ import numpy as np
 import time # -- 프레임 계산을 위해 사용
 
 
-vedio_path = 'test/car.mp4' #-- 사용할 영상 경로
+vedio_path = 'test/person.mp4' #-- 사용할 영상 경로
 min_confidence = 0.5
 
 def detectAndDisplay(frame):

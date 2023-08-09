@@ -21,13 +21,12 @@ def detectAndDisplay(frame, focal_length):
     confidences = []
     boxes = []
 
-
     for out in outs:
         for detection in out:
             scores = detection[5:]
             class_id = np.argmax(scores)
             confidence = scores[class_id]
-            if confidence > min_confidence:
+            if confidence > min_confidence and (classes[class_id] == 'person' or classes[class_id] == 'car' or classes[class_id] == 'truck') :  # Only consider 'person' class
                 center_x = int(detection[0] * width)
                 center_y = int(detection[1] * height)
                 w = int(detection[2] * width)
@@ -48,26 +47,25 @@ def detectAndDisplay(frame, focal_length):
             class_name = classes[class_ids[i]]
             label = "{}: {:.2f}".format(class_name, confidences[i]*100)
 
-            if class_name in known_widths:
+            if class_name == 'person' or class_name == 'car' or classes[class_id] == 'truck':
                 distance = calculate_distance(w, h, known_widths[class_name], focal_length)
                 text = "{} - Distance: {:.2f} meters".format(label, distance)
+                print(text)
             else:
                 text = label
 
-            print(text)
             color = colors[i]
             cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
             cv2.putText(img, text, (x, y - 5), font, 1, color, 1)
 
     cv2.imshow("YOLO test", img)
 
-
-model_file = '/home/ngh/publicSoftWareContest/Open-SW-Developer-Contest/object recognition/person/yolov3-tiny.weights'
-config_file = '/home/ngh/publicSoftWareContest/Open-SW-Developer-Contest/object recognition/person/yolov3-tiny.cfg'
+model_file = 'Open-SW-Developer-Contest/object recognition/person/yolov4-tiny.weights'
+config_file = 'Open-SW-Developer-Contest/object recognition/person/yolov4-tiny.cfg'
 net = cv2.dnn.readNet(model_file, config_file)
 
 classes = []
-with open("/home/ngh/publicSoftWareContest/Open-SW-Developer-Contest/object recognition/person/coco.names", "r") as f:
+with open("Open-SW-Developer-Contest/object recognition/person/coco.names", "r") as f:
     classes = [line.strip() for line in f.readlines()]
 
 # 객체 별 실제 너비 (미터 단위)를 알고 있어야 합니다.
@@ -75,7 +73,9 @@ known_widths = {
     'person': 1.5,  # 예: 사람의 실제 너비가 1.5 미터라고 가정
     'cell phone': 0.3,     # 예: 자동차의 실제 너비가 2.0 미터라고 가정
     'chair': 1.0,
-    'traffic light': 3
+    'traffic light': 3,
+    'car' : 3.0,
+    'truck' : 4.0
     # 다른 객체들의 실제 너비도 추가해야 합니다.
 }
 

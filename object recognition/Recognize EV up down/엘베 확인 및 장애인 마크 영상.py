@@ -1,70 +1,108 @@
+"""
+# 검은색, 파란색 사각형 검출
 import cv2
 import numpy as np
 
-# 영상을 읽어옵니다. 카메라를 사용하려면 0 대신 카메라 번호를 사용합니다.
-video_capture = cv2.VideoCapture(0)
+image = cv2.imread("object recognition/Recognize EV up down/Data/엘베올라가는거.png")
 
-# 주황색 V자 범위
-lower_orange = np.array([0, 120, 200])
-upper_orange = np.array([20, 255, 255])
-
-# 파란색 박스 범위
 lower_blue = np.array([105, 50, 0])
 upper_blue = np.array([115, 250, 250])
 
-while video_capture.isOpened():
-    ret, frame = video_capture.read()
-    if not ret:
-        break
-    
-    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    
-    # 파란색 박스 검출
-    blue_mask = cv2.inRange(hsv_frame, lower_blue, upper_blue)
-    blue_blurred_mask = cv2.blur(blue_mask, (20, 20))  # 강한 블러 처리
-    blue_contours, _ = cv2.findContours(blue_blurred_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    
-    if len(blue_contours) == 0:
-        print("파란색 박스가 검출되지 않았습니다.")
-        continue
-    
-    for blue_contour in blue_contours:
-        blue_x, blue_y, blue_w, blue_h = cv2.boundingRect(blue_contour)
-        
-        # 주황색 V자 하단 좌표
-        orange_bottom_x = blue_x + blue_w // 2
-        orange_bottom_y = blue_y + blue_h
-        
-        # 주황색 V자 검출
-        orange_mask = cv2.inRange(hsv_frame, lower_orange, upper_orange)
-        orange_blurred_mask = cv2.blur(orange_mask, (10, 10))
-        orange_contours, _ = cv2.findContours(orange_blurred_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        
-        for orange_contour in orange_contours:
-            orange_x, orange_y, orange_w, orange_h = cv2.boundingRect(orange_contour)
-            
-            # 주황색 V자 하단과 파란색 박스 중심의 거리 계산
-            distance = np.sqrt((orange_bottom_x - (orange_x + orange_w // 2))**2 + (orange_bottom_y - (orange_y + orange_h // 2))**2)
-            
-            if distance < 500:  # 이격 거리가 500 이하인 경우
-                # 주황색 V자 모양 판별
-                center_x = orange_x + orange_w // 2
-                center_y = orange_y + orange_h // 2
-                if abs(center_x - center_y) < 10:
-                    text = "V자 형태가 아닙니다."
-                elif center_x < center_y:
-                    text = "V자 형태: 아래로 향하는 V자"
-                else:
-                    text = "V자 형태: 위로 향하는 V자"
-                
-                cv2.putText(frame, text, (orange_x, orange_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-                cv2.rectangle(frame, (orange_x, orange_y), (orange_x + orange_w, orange_y + orange_h), (0, 255, 0), 2)
-                cv2.rectangle(frame, (blue_x, blue_y), (blue_x + blue_w, blue_y + blue_h), (0, 0, 255), 2)
-    
-    cv2.imshow("Result Frame", frame)
-    
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+lower_black = np.array([0,0,0])
+upper_black = np.array([100,80,80])
 
-video_capture.release()
+hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+blue_mask = cv2.inRange(hsv_image, lower_blue, upper_blue)
+blue_blurred_mask = cv2.blur(blue_mask, (10, 10))
+contours, _ = cv2.findContours(blue_blurred_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+for contour in contours:
+    x, y, w, h = cv2.boundingRect(contour)
+    cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+
+black_mask = cv2.inRange(hsv_image, lower_black, upper_black)
+black_blurred_mask = cv2.blur(black_mask, (40, 40))
+contours, _ = cv2.findContours(black_blurred_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+for contour in contours:
+    x, y, w, h = cv2.boundingRect(contour)
+    cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    
+    
+cv2.imshow("blurred", black_blurred_mask)
+cv2.imshow("Result Image", image)
+cv2.imshow("mask Image", black_mask)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+"""
+
+import cv2
+import numpy as np
+
+#image = cv2.imread("object recognition/Recognize EV up down/Data/엘베올라가는거.png")
+image = cv2.imread("object recognition/Recognize EV up down/Data/down.jpg")
+
+lower_blue = np.array([105, 50, 0])
+upper_blue = np.array([115, 250, 250])
+
+lower_black = np.array([0, 0, 0])
+upper_black = np.array([100, 80, 80])
+
+lower_orange = np.array([0, 120, 200])
+upper_orange = np.array([20, 255, 255])
+
+orange_hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+orange_mask = cv2.inRange(orange_hsv_image, lower_orange, upper_orange)
+orange_blurred_mask = cv2.blur(orange_mask, (10, 10))
+contours, _ = cv2.findContours(orange_blurred_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+flag_V = False
+x_orange = None
+y_orange = None
+w_orange = None
+h_orange = None
+
+
+for contour in contours:
+    x_orange, y_orange, w_orange, h_orange = cv2.boundingRect(contour)
+    center_x = x_orange + w_orange // 2
+    center_y = y_orange + h_orange // 2
+    if abs(center_x - center_y) < 10:
+        print("V자 형태가 아닙니다.")
+    elif center_x < center_y:
+        print("V자 형태: 아래로 향하는 V자")
+        flag_V = True
+    else:
+        print("V자 형태: 위로 향하는 V자")
+        flag_V = True
+    cv2.rectangle(image, (x_orange, y_orange), (x_orange + w_orange, y_orange + h_orange), (0, 255, 0), 2)
+
+
+hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+blue_mask = cv2.inRange(hsv_image, lower_blue, upper_blue)
+blue_blurred_mask = cv2.blur(blue_mask, (20, 20))
+blue_contours, _ = cv2.findContours(blue_blurred_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+black_mask = cv2.inRange(hsv_image, lower_black, upper_black)
+black_blurred_mask = cv2.blur(black_mask, (30, 30))
+black_contours, _ = cv2.findContours(black_blurred_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+flag_blue_in_black = False
+
+for black_contour in black_contours:
+    x_black, y_black, w_black, h_black = cv2.boundingRect(black_contour)
+    for blue_contour in blue_contours:
+        x_blue, y_blue, w_blue, h_blue = cv2.boundingRect(blue_contour)
+        if flag_V:
+            if x_blue > x_black and y_blue > y_black and x_blue + w_blue < x_black + w_black and y_blue + h_blue < y_black + h_black and x_orange > x_black and y_orange > y_black and x_orange + w_orange < x_black + w_black and y_orange + h_orange < y_black + h_black:
+                flag_blue_in_black = True
+                cv2.rectangle(image, (x_black, y_black), (x_black + w_black, y_black + h_black), (0, 255, 0), 2)
+                cv2.rectangle(image, (x_blue, y_blue), (x_blue + w_blue, y_blue + h_blue), (0, 0, 255), 2)
+
+print(flag_blue_in_black)
+
+cv2.imshow("Result Image", image)
+cv2.imshow("blue Image", blue_blurred_mask)
+
+
+cv2.waitKey(0)
 cv2.destroyAllWindows()

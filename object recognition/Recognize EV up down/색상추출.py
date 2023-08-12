@@ -6,7 +6,7 @@ def mouse_callback(event, x, y, flags, param):
         print("BGR Color: ", bgr_color)
 
 # 이미지 불러오기, RGB 프로세싱
-image = cv2.imread("object recognition/Recognize EV up down/Data/엘베올라가는거.png")
+image = cv2.imread("object recognition/Recognize EV up down/Data/down.jpg")
 cv2.imshow("Image", image)
 
 # 마우스 콜백 함수 설정

@@ -6,7 +6,6 @@ except ImportError:
     import Image
 import pytesseract
 
-# 이미지 불러오기, RGB 프로세싱
 image = cv2.imread("object recognition/Recognize Room Number/Data/1.png")
 
 lower_orange = (60, 100, 150)

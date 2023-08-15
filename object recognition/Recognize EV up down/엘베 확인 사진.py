@@ -3,8 +3,8 @@ import numpy as np
 
 image = cv2.imread("object recognition/Recognize EV up down/Data/down.jpg")
 
-lower_orange = np.array([0, 120, 200])
-upper_orange = np.array([20, 255, 255])
+lower_orange = np.array([10, 130, 200])
+upper_orange = np.array([30, 255, 255])
 
 hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 orange_mask = cv2.inRange(hsv_image, lower_orange, upper_orange)

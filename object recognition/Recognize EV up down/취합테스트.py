@@ -4,13 +4,13 @@ import numpy as np
 # 카메라 캡처 객체 생성
 cap = cv2.VideoCapture(0)  # 0번 카메라
 
-lower_blue = np.array([105, 50, 0])
-upper_blue = np.array([115, 250, 250])
+lower_blue = np.array([105, 50, 50])
+upper_blue = np.array([120, 250, 250])
 
 lower_black = np.array([0, 0, 0])
 upper_black = np.array([100, 80, 80])
 
-lower_orange = np.array([0, 120, 200])
+lower_orange = np.array([0, 130, 200])
 upper_orange = np.array([20, 255, 255])
 
 while True:
@@ -44,9 +44,13 @@ while True:
 
     # 파란색과 검은색 사각형 검출
     blue_mask = cv2.inRange(hsv_image, lower_blue, upper_blue)
-    blue_blurred_mask = cv2.blur(blue_mask, (20, 20))
+    b_erode = cv2.erode(blue_mask, (13,13))
+    # b_dilate = cv2.dilate(b_erode, (5,5))
+    blue_blurred_mask = cv2.GaussianBlur(b_erode, (15, 15), 5)
     blue_contours, _ = cv2.findContours(blue_blurred_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
+    
+    # blue_contours, _ = cv2.findContours(b_erode, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    
     black_mask = cv2.inRange(hsv_image, lower_black, upper_black)
     black_blurred_mask = cv2.blur(black_mask, (30, 30))
     black_contours, _ = cv2.findContours(black_blurred_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -59,18 +63,17 @@ while True:
             if flag_V:
                 if x_blue > x_black and y_blue > y_black and x_blue + w_blue < x_black + w_black and y_blue + h_blue < y_black + h_black and x_orange > x_black and y_orange > y_black and x_orange + w_orange < x_black + w_black and y_orange + h_orange < y_black + h_black:
                     flag_blue_in_black = True
-                    cv2.rectangle(frame, (x_black, y_black), (x_black + w_black, y_black + h_black), (0, 255, 0), 2)
+                    cv2.rectangle(frame, (x_black, y_black), (x_black + w_black, y_black + h_black), (255, 0, 0), 2)
                     cv2.rectangle(frame, (x_blue, y_blue), (x_blue + w_blue, y_blue + h_blue), (0, 0, 255), 2)
 
     print(flag_blue_in_black)
 
     cv2.imshow("Result Image", frame)
+    cv2.imshow("orange Image", orange_blurred_mask)
     cv2.imshow("blue Image", blue_blurred_mask)
 
-    # 'q' 키를 누르면 종료
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# 카메라 해제 및 창 닫기
 cap.release()
 cv2.destroyAllWindows()

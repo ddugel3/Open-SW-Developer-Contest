@@ -1,47 +1,36 @@
 """
 import cv2
 import numpy as np
-
 def find_v_direction(contour, image_height):
     # 컨투어의 높이 구하기
     (x, y, w, h) = cv2.boundingRect(contour)
     center_y = y + h // 2
     return "위" if center_y < image_height // 2 else "아래"
-
 # 이미지 불러오기
 image = cv2.imread("object recognition/Recognize EV up down/Data/down.jpg")  # 'your_image.jpg'에 분석하고자 하는 사진 파일 경로 입력
-
 # 주황색 범위로 마스크 생성
 #lower_orange = (60, 100, 150)
 #upper_orange = (120, 155, 255)
 lower_orange = (0,0,180)
 upper_orange = (40,150,255)
-
 orange_mask = cv2.inRange(image, lower_orange, upper_orange)
-
 # Canny 에지 검출
 edges = cv2.Canny(orange_mask, 100, 200)
-
 # 컨투어 탐지
 contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
 # 가장 긴 컨투어 찾기
 longest_contour = max(contours, key=cv2.contourArea)
-
 # 꼭짓점 개수 확인
 vertices = cv2.approxPolyDP(longest_contour, 0.02 * cv2.arcLength(longest_contour, True), True)
 num_vertices = len(vertices)
-
 # V자의 꼭짓점 판별
 if num_vertices == 3:
     v_direction = find_v_direction(longest_contour, image.shape[0])
     print("V자의 꼭짓점은 {} 방향입니다.".format(v_direction))
 else:
     print("V자의 꼭짓점이 아닙니다.")
-
 # 이미지에 컨투어 그리기
 cv2.drawContours(image, [longest_contour], -1, (0, 255, 0), 2)
-
 # 결과 이미지 출력
 cv2.imshow("orange",orange_mask)
 cv2.imshow("Image with Contour", image)

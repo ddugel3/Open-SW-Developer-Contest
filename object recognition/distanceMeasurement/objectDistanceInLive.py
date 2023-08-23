@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import time
+import imutils #신호등 객체 인식을 위한 추가
 
 min_confidence = 0.5
 
@@ -26,7 +27,7 @@ def detectAndDisplay(frame, focal_length):
             scores = detection[5:]
             class_id = np.argmax(scores)
             confidence = scores[class_id]
-            if confidence > min_confidence and (classes[class_id] == 'person' or classes[class_id] == 'car' or classes[class_id] == 'truck' or classes[class_id] == 'bicycle' or classes[class_id] == 'motorbike' or classes[class_id] == 'dog') :  # Only consider 'person' class
+            if confidence > min_confidence and (classes[class_id] == 'person' or classes[class_id] == 'car' or classes[class_id] == 'truck' or classes[class_id] == 'bicycle' or classes[class_id] == 'motorbike' or classes[class_id] == 'dog' or classes[class_id] == 'traffic light') :  # Only consider 'person' class
                 center_x = int(detection[0] * width)
                 center_y = int(detection[1] * height)
                 w = int(detection[2] * width)
@@ -47,9 +48,21 @@ def detectAndDisplay(frame, focal_length):
             class_name = classes[class_ids[i]]
             label = "{}: {:.2f}".format(class_name, confidences[i]*100)
 
-            if class_name == 'person' or class_name == 'car' or classes[class_id] == 'truck' or class_name == 'bicycle' or classes[class_id] == 'motorbike' or classes[class_id] == 'dog':
+            if class_name == 'person' or class_name == 'car' or class_name == 'truck' or class_name == 'bicycle' or class_name == 'motorbike' or class_name == 'dog' or class_name == 'traffic light':
                 distance = calculate_distance(w, h, known_widths[class_name], focal_length)
                 text = "{} - Distance: {:.2f} meters".format(label, distance)
+                
+                # 신호등 색 인식(초록, 빨강)
+                if class_name == 'traffic light':
+                    roi = img[y:y + h, x:x + w]
+                    hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+                    mask_red = cv2.inRange(hsv_roi, (0, 100, 100), (10, 255, 255))
+                    mask_green = cv2.inRange(hsv_roi, (35, 100, 100), (85, 255, 255))
+                    if np.sum(mask_red) > np.sum(mask_green):
+                        text += " - Red"
+                    else:
+                        text += " - Green"
+                        
                 print(text)
             else:
                 text = label
@@ -60,12 +73,12 @@ def detectAndDisplay(frame, focal_length):
 
     cv2.imshow("YOLO test", img)
 
-model_file = 'Open-SW-Developer-Contest/object recognition/person/yolov4-tiny.weights'
-config_file = 'Open-SW-Developer-Contest/object recognition/person/yolov4-tiny.cfg'
+model_file = 'object recognition\yolov4-tiny.weights'
+config_file = 'object recognition\yolov4-tiny.cfg'
 net = cv2.dnn.readNet(model_file, config_file)
 
 classes = []
-with open("Open-SW-Developer-Contest/object recognition/person/coco.names", "r") as f:
+with open("object recognition\coco.names", "r") as f:
     classes = [line.strip() for line in f.readlines()]
 
 # 객체 별 실제 너비 (미터 단위)를 알고 있어야 합니다.

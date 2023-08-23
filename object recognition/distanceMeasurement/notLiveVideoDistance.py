@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import time
 
-vedio_path = 'Open-SW-Developer-Contest/object recognition/mortorcyle2.mp4'
+vedio_path = 'Open-SW-Developer-Contest/object recognition/motorcyle2.mp4'
 min_confidence = 0.5
 
 def calculate_distance(w, h, known_width, focal_length):

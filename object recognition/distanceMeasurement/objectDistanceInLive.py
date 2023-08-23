@@ -26,7 +26,7 @@ def detectAndDisplay(frame, focal_length):
             scores = detection[5:]
             class_id = np.argmax(scores)
             confidence = scores[class_id]
-            if confidence > min_confidence and (classes[class_id] == 'person' or classes[class_id] == 'car' or classes[class_id] == 'truck') :  # Only consider 'person' class
+            if confidence > min_confidence and (classes[class_id] == 'person' or classes[class_id] == 'car' or classes[class_id] == 'truck' or classes[class_id] == 'bicycle' or classes[class_id] == 'motorbike' or classes[class_id] == 'dog') :  # Only consider 'person' class
                 center_x = int(detection[0] * width)
                 center_y = int(detection[1] * height)
                 w = int(detection[2] * width)
@@ -47,7 +47,7 @@ def detectAndDisplay(frame, focal_length):
             class_name = classes[class_ids[i]]
             label = "{}: {:.2f}".format(class_name, confidences[i]*100)
 
-            if class_name == 'person' or class_name == 'car' or classes[class_id] == 'truck':
+            if class_name == 'person' or class_name == 'car' or classes[class_id] == 'truck' or class_name == 'bicycle' or classes[class_id] == 'motorbike' or classes[class_id] == 'dog':
                 distance = calculate_distance(w, h, known_widths[class_name], focal_length)
                 text = "{} - Distance: {:.2f} meters".format(label, distance)
                 print(text)
@@ -75,7 +75,10 @@ known_widths = {
     'chair': 1.0,
     'traffic light': 3,
     'car' : 3.0,
-    'truck' : 4.0
+    'truck' : 4.0,
+    'bicycle': 1.0,
+    'motorbike': 2.0,
+    'dog': 1.0
     # 다른 객체들의 실제 너비도 추가해야 합니다.
 }
 

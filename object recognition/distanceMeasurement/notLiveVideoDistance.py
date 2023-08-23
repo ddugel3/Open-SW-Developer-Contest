@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import time
 
-vedio_path = '/home/ngh/publicSoftWareContest/Open-SW-Developer-Contest/object recognition/person/car.mp4'
+vedio_path = 'Open-SW-Developer-Contest/object recognition/mortorcyle2.mp4'
 min_confidence = 0.5
 
 def calculate_distance(w, h, known_width, focal_length):
@@ -58,20 +58,22 @@ def detectAndDisplay(frame, focal_length):
     print("=== A frame took {:.3f} seconds".format(process_time))
     cv2.imshow("YOLO test", img)
 
-model_file = '/home/ngh/publicSoftWareContest/Open-SW-Developer-Contest/object recognition/person/yolov3-tiny.weights'
-config_file = '/home/ngh/publicSoftWareContest/Open-SW-Developer-Contest/object recognition/person/yolov3-tiny.cfg'
+model_file = 'Open-SW-Developer-Contest/object recognition/person/yolov4-tiny.weights'
+config_file = 'Open-SW-Developer-Contest/object recognition/person/yolov4-tiny.cfg'
 net = cv2.dnn.readNet(model_file, config_file)
 
 classes = []
-with open("/home/ngh/publicSoftWareContest/Open-SW-Developer-Contest/object recognition/person/coco.names", "r") as f:
+with open("Open-SW-Developer-Contest/object recognition/person/coco.names", "r") as f:
     classes = [line.strip() for line in f.readlines()]
 
 # 객체 별 실제 너비 (미터 단위)를 알고 있어야 합니다.
 known_widths = {
     'person': 1.5,  # 예: 사람의 실제 너비가 1.5 미터라고 가정
-    'car': 2.0,     # 예: 자동차의 실제 너비가 2.0 미터라고 가정
+    'car': 3.0,     # 예: 자동차의 실제 너비가 2.0 미터라고 가정
     'tie': 0.3,
-    'truck':3
+    'truck':4,
+    'motorbike':2,
+    'traffic light':2
     # 다른 객체들의 실제 너비도 추가해야 합니다.
 }
 

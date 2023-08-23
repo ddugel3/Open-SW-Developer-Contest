@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import time
 
-vedio_path = 'Open-SW-Developer-Contest/object recognition/motorcyle2.mp4'
+vedio_path = 'Open-SW-Developer-Contest/object recognition/dataHee/motorcyle2.mp4'
 min_confidence = 0.5
 
 def calculate_distance(w, h, known_width, focal_length):
@@ -58,12 +58,12 @@ def detectAndDisplay(frame, focal_length):
     print("=== A frame took {:.3f} seconds".format(process_time))
     cv2.imshow("YOLO test", img)
 
-model_file = 'Open-SW-Developer-Contest/object recognition/person/yolov4-tiny.weights'
-config_file = 'Open-SW-Developer-Contest/object recognition/person/yolov4-tiny.cfg'
+model_file = 'object recognition\dataHee\yolov4-tiny.weights'
+config_file = 'object recognition\dataHee\yolov4-tiny.cfg'
 net = cv2.dnn.readNet(model_file, config_file)
 
 classes = []
-with open("Open-SW-Developer-Contest/object recognition/person/coco.names", "r") as f:
+with open("object recognition\dataHee\coco.names", "r") as f:
     classes = [line.strip() for line in f.readlines()]
 
 # 객체 별 실제 너비 (미터 단위)를 알고 있어야 합니다.

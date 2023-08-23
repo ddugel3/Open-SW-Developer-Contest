@@ -73,12 +73,12 @@ def detectAndDisplay(frame, focal_length):
 
     cv2.imshow("YOLO test", img)
 
-model_file = 'object recognition\yolov4-tiny.weights'
-config_file = 'object recognition\yolov4-tiny.cfg'
+model_file = 'object recognition\dataHee\yolov4-tiny.weights'
+config_file = 'object recognition\dataHee\yolov4-tiny.cfg'
 net = cv2.dnn.readNet(model_file, config_file)
 
 classes = []
-with open("object recognition\coco.names", "r") as f:
+with open("object recognition\dataHee\coco.names", "r") as f:
     classes = [line.strip() for line in f.readlines()]
 
 # 객체 별 실제 너비 (미터 단위)를 알고 있어야 합니다.

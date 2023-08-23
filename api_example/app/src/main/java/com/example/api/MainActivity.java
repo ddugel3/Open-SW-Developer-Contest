@@ -1,4 +1,7 @@
+
 package com.example.api;
+
+import com.example.api.MainActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,11 +24,14 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.ViewGroup;
 
+
+
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapPolyline;
 import net.daum.mf.map.api.MapView;
+import net.daum.mf.map.api.MapPOIItem;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -33,6 +39,7 @@ import java.security.NoSuchAlgorithmException;
 public class MainActivity extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener {
     private MapView mapView;
     private ViewGroup mapViewContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,3 +177,4 @@ public class MainActivity extends AppCompatActivity implements MapView.CurrentLo
 
     }
 }
+

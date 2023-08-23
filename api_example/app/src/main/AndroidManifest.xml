@@ -32,7 +32,7 @@
 
             <meta-data
                 android:name="android.app.lib_name"
-                android:value="" />
+                android:value="b6f00bc03431f0a00ea18c69adda9a82"/>
         </activity>
 
         <meta-data

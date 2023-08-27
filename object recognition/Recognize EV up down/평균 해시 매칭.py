@@ -58,7 +58,7 @@ for contour in contours:
     arrow_hash = average_hash(arrow_roi)
 
     similarity = 1 - mean_squared_error(template_hash, arrow_hash)
-    similarity_threshold = 0.43
+    similarity_threshold = 0.43 
     if similarity > similarity_threshold:
         arrow_detected = True  # 화살표가 검출됨을 표시
         cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)

@@ -21,7 +21,6 @@ def determine_arrow_direction(contour, frame):
 image = cv2.imread('object recognition/Recognize EV up down/Data/1.png')
 #image = cv2.imread('object recognition/Recognize EV up down/Data/down.jpg')
 
-
 hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
 lower_orange = np.array([0, 130, 200])

@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -22,8 +29,9 @@
             </intent-filter>
         </activity>
         <meta-data
-            android:name="com.naver.maps.map.d0qupi8ke8"
+            android:name="com.naver.maps.map.CLIENT_ID"
             android:value="d0qupi8ke8"/>
+
     </application>
 
 </manifest>

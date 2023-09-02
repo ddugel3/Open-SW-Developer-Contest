@@ -56,10 +56,14 @@
             android:layout_height="match_parent"
             android:gravity="bottom">
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+            <!-- 음성 인식 버튼 -->
+            <Button
+                android:id="@+id/voice_recognition_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/voice_recognition_icon" />
 
             <View
                 android:layout_width="0dp"

@@ -10,21 +10,40 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
+import java.util.ArrayList;
+
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.MapView;
-import java.util.ArrayList;
+
 import android.speech.RecognizerIntent;
+
+import androidx.core.app.ActivityCompat;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import com.naver.maps.map.LocationTrackingMode;
+import com.naver.maps.map.util.FusedLocationSource;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private MapView mapView;
-    private static NaverMap naverMap;
     private Button search_btn;
     private Button setting_btn;
+
+    private MapView mapView;
+    private static NaverMap naverMap;
+
     private Button voice_recognition_btn; // 음성 인식 버튼 추가
+
+    // 현재 위치
+    private NaverMap mNaverMap;
+    private FusedLocationSource locationSource;
+    private static final int PERMISSION_REQUEST_CODE = 100;
+    private static final String[] PERMISSIONS = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -46,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startVoiceRecognition();
             }
         });
+
+        //위치를 반환하는 구현체인 FusedLocationSource 생성
+        locationSource = new FusedLocationSource(this, PERMISSION_REQUEST_CODE);
 
         /// 길찾기 탭으로 이동
         search_btn = findViewById(R.id.search_btn);
@@ -74,6 +96,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
+        // NaverMap 객체 받아서 NaverMap 객체에 위치 소스 지정
+        mNaverMap = naverMap;
+        mNaverMap.setLocationSource(locationSource);
+
+        // 권한 확인, 결과는 onRequestPermissionResult 콜백 메서드 호출
+        ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_REQUEST_CODE);
 
     }
 
@@ -108,6 +136,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String recognizedText = results.get(0); // 첫 번째 결과를 가져옴
                 EditText searchEditText = findViewById(R.id.search_text);
                 searchEditText.setText(recognizedText); // 검색어 설정
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // request code와 권한 획득 여부 확인
+        if(requestCode == PERMISSION_REQUEST_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                mNaverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
             }
         }
     }

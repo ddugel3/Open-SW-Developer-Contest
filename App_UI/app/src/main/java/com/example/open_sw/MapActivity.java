@@ -3,21 +3,19 @@ package com.example.open_sw;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Size;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import android.location.Address;
 import android.location.Geocoder;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapView;
 
-import androidx.annotation.Nullable;
-import androidx.camera.core.AspectRatio;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;

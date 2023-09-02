@@ -2,3 +2,10 @@ node_modules
 package.json
 package-lock.json
 .DS_Store
+.idea
+.tmp
+caches
+daemon
+jdks
+native
+wrapper

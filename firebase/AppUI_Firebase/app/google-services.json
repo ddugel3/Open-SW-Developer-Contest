@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "120293337809",
+    "project_id": "opensw-ffe60",
+    "storage_bucket": "opensw-ffe60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120293337809:android:4d8b6d44d1f917f84db3f0",
+        "android_client_info": {
+          "package_name": "com.example.open_sw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120293337809-1gtj9fe6sa12m7g8683jmsjbncg3fj3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLwpBHaFZWUHPkd77aqFrzsdZkmX8LzeA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120293337809-1gtj9fe6sa12m7g8683jmsjbncg3fj3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

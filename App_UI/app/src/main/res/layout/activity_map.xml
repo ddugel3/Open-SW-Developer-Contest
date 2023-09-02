@@ -56,8 +56,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <View
-        android:id="@+id/map"
+<!--    <View-->
+<!--        android:id="@+id/map"-->
+
+    <com.naver.maps.map.MapView
+        android:id="@+id/map_view"
+        android:name="com.naver.maps.map.MapFragment"
+        tools:layout="@android:layout/activity_list_item"
         android:layout_width="365dp"
         android:layout_height="375dp"
         android:layout_marginTop="13dp"

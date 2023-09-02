@@ -1,5 +1,6 @@
 package com.example.open_sw;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -10,8 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.MapView;
 
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private MapView mapView;
+    private static NaverMap naverMap;
     private Button search_btn;
     private Button setting_btn;
 
@@ -21,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //네이버 지도
+        mapView = (MapView) findViewById(R.id.map_view);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
 
         /// 길찾기 탭으로 이동
         search_btn = (Button)findViewById(R.id.search_btn);
@@ -42,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent); // 액티비티 이동
             }
         });
+
+    }
+
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
 
     }
 }

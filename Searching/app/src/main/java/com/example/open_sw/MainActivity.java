@@ -25,7 +25,45 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button search_btn;
     private Button setting_btn;
     private Button voice_recognition_btn; // 음성 인식 버튼 추가
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
 
+    }
+
+    // 음성 인식 요청 코드
+    private static final int SPEECH_REQUEST_CODE = 123;
+
+    // 음성 인식 시작 함수
+    private void startVoiceRecognition() {
+        // 음성 인식 인텐트 생성
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR"); // 한국어 설정 (원하는 언어로 변경 가능)
+
+        try {
+            // 음성 인식 액티비티 시작
+            startActivityForResult(intent, SPEECH_REQUEST_CODE);
+        } catch (ActivityNotFoundException e) {
+            // 음성 인식 앱이 설치되어 있지 않은 경우
+            Toast.makeText(MainActivity.this, "음성 인식 앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // 음성 인식 결과 처리 함수
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            // 음성 인식 결과를 가져와서 search_text EditText에 설정
+            ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (results != null && !results.isEmpty()) {
+                String recognizedText = results.get(0); // 첫 번째 결과를 가져옴
+                EditText searchEditText = findViewById(R.id.search_text);
+                searchEditText.setText(recognizedText); // 검색어 설정
+            }
+        }
+    }
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,43 +110,5 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-    @Override
-    public void onMapReady(@NonNull NaverMap naverMap) {
 
-    }
-
-    // 음성 인식 요청 코드
-    private static final int SPEECH_REQUEST_CODE = 123;
-
-    // 음성 인식 시작 함수
-    private void startVoiceRecognition() {
-        // 음성 인식 인텐트 생성
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR"); // 한국어 설정 (원하는 언어로 변경 가능)
-
-        try {
-            // 음성 인식 액티비티 시작
-            startActivityForResult(intent, SPEECH_REQUEST_CODE);
-        } catch (ActivityNotFoundException e) {
-            // 음성 인식 앱이 설치되어 있지 않은 경우
-            Toast.makeText(MainActivity.this, "음성 인식 앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    // 음성 인식 결과 처리 함수
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            // 음성 인식 결과를 가져와서 search_text EditText에 설정
-            ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if (results != null && !results.isEmpty()) {
-                String recognizedText = results.get(0); // 첫 번째 결과를 가져옴
-                EditText searchEditText = findViewById(R.id.search_text);
-                searchEditText.setText(recognizedText); // 검색어 설정
-            }
-        }
-    }
 }

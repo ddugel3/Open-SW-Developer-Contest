@@ -87,7 +87,6 @@
             android:background="@drawable/voice_recognition_icon"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"/>
-
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

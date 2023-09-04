@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button setting_btn;
 
     private MapView mapView;
-    private static NaverMap naverMap;
 
     private Button voice_recognition_btn; // 음성 인식 버튼 추가
 
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
-
+    // 네이버 지도 API
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

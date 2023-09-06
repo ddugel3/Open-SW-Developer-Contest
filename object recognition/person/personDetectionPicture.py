@@ -8,11 +8,11 @@ from firebase_admin import credentials, initialize_app, storage, db
 
 
 # Firebase Admin SDK 초기화
-cred = credentials.Certificate('opencv-android-8e53d-firebase-adminsdk-s3htt-469adf979d.json')
+cred = credentials.Certificate('')
 initialize_app(cred, {
-    'serviceAccountId': 'firebase-adminsdk-s3htt@opencv-android-8e53d.iam.gserviceaccount.com',
-    'storageBucket': 'gs://opencv-android-8e53d.appspot.com',
-    'databaseURL': 'https://opencv-android-8e53d-default-rtdb.firebaseio.com/'
+    'serviceAccountId': 'firebase-adminsdk-b8iok@last-chance-276ca.iam.gserviceaccount.com',
+    'storageBucket': 'gs://last-chance-276ca.appspot.com',
+    'databaseURL': 'https://last-chance-276ca-default-rtdb.firebaseio.com/'
 })
 
 def perform_object_recognition():
@@ -29,7 +29,7 @@ def perform_object_recognition():
 
     # 다운로드할 이미지의 URL
 
-    image_url = "https://firebasestorage.googleapis.com/v0/b/opencv-android-8e53d.appspot.com/o/item%2Fimage.png?alt=media&token=4c31137d-783a-4da9-a3b8-5fdd8c7b6a4d"  # 이미지 URL을 여기에 입력하세요
+    image_url = "https://firebasestorage.googleapis.com/v0/b/opencv-android-8e53d.appspot.com/o/item%2Fimage.jpg?alt=media&token=986c95f1-4651-419f-abf0-8d1a534bf92b"  # 이미지 URL을 여기에 입력하세요
 
     # 이미지 다운로드
     response = requests.get(image_url)
@@ -83,7 +83,7 @@ def perform_object_recognition():
                 cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
                 cv2.putText(img, recognition_result, (x, y + 30), font, 3, color, 3)
         cv2.imshow("Image", img)
-        cv2.waitKey(2000)
+        cv2.waitKey(1000)
         cv2.destroyAllWindows()
 
         return recognition_result
@@ -108,7 +108,7 @@ while True:
         result_key = new_result_ref.key
 
         # 2초 대기
-        time.sleep(2)
+        time.sleep(5)
 
     except Exception as e:
         # 오류가 발생하면 해당 오류를 출력하고 계속 진행합니다.

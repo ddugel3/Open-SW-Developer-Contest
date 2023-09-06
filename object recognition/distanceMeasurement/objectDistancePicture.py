@@ -17,11 +17,11 @@ initialize_app(cred, {
 min_confidence = 0.5
 
 
-
 def calculate_distance(w, h, known_width, focal_length):
     # Calculate the distance from the camera to the object
     return (known_width * focal_length) / w
 
+  
 def perform_object_recognition():
     # Set the focal length of the camera (Update this value with the actual focal length)
     focal_length = 100
@@ -163,4 +163,5 @@ while True:
     except Exception as e:
         # 오류가 발생하면 해당 오류를 출력하고 계속 진행합니다.
         print("An error occurred:", str(e))
+
 

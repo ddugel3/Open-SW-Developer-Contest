@@ -1,85 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#BDDE94"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <RelativeLayout
+
+    <!-- 배경 레이아웃 -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="154dp"
+        android:background="#BDDE94">
 
-        <!-- 네이버 지도 -->
-        <com.naver.maps.map.MapView
-            android:id="@+id/map_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="com.naver.maps.map.MapFragment"
-            tools:layout="@android:layout/activity_list_item" />
-
+        <!-- 장소 UI -->
         <LinearLayout
-            android:id="@+id/SearchTab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top">
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/search_text"
-                android:layout_width="295dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/radius_12_white"
-                android:hint="검색"
-                android:paddingLeft="10dp"
-                android:textSize="13sp" />
+            <!-- 타입 선택 UI -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/search_btn"
-                android:layout_width="55dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/radius_12_light_green"
-                android:text="찾기"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"/>
+                <!-- 자동차 선택 UI -->
+
+                <Button
+                    android:id="@+id/select_car_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/car_button"
+                    android:textStyle="bold"/>
+
+                <!-- 대중교통 선택 UI -->
+                <Button
+                    android:id="@+id/select_bus_btn"
+                    android:layout_width="60dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bus_button" />
+
+                <!-- 보행자 선택 UI -->
+                <Button
+                    android:id="@+id/select_pedestrian_btn"
+                    android:layout_width="60dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/pedestrian_button" />
+
+            </LinearLayout>
+
+            <!-- 검색 출발지 검색창 & 출발/도착지 바꾸기 버튼 UI -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.1"
+                    android:layout_height="wrap_content"
+                    android:text="출발"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="#000000"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/inputStart_editText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.7"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+
+                <Button
+                    android:id="@+id/change_btn"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/change_btn"
+                    android:gravity="center" />
+
+
+            </LinearLayout>
+
+
+            <!-- 검색 도착지 검색 창& clear 버튼 UI -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.1"
+                    android:layout_height="wrap_content"
+                    android:text="도착"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+
+                <EditText
+                    android:id="@+id/inputEnd_editText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.7"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+
+
+                <Button
+                    android:id="@+id/findPath_btn"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:background="@drawable/findpath_btn"/>
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
+    </FrameLayout>
+
+
+    <!-- 지도맵 배경 레이아웃-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <!-- 지도맵 레이아웃 -->
         <LinearLayout
+            android:id="@+id/linearLayoutTmap"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="bottom">
+            android:orientation="vertical"/>
 
-            <!-- 음성 인식 버튼 -->
-            <Button
-                android:id="@+id/voice_recognition_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/voice_recognition_icon" />
+        <!-- 현위치 표시 버튼 -->
+        <Button
+            android:id="@+id/showCurPosition_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text= "현위치 표시"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/radius_12_green"
+            android:layout_gravity="bottom" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+        <!-- 경로 안내 자세한 정보 출력 버튼 -->
+        <Button
+            android:id="@+id/showDetailInfo_Path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text= "Detail"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/radius_12_green"
+            android:layout_gravity="bottom|right"/>
 
-            <Button
-                android:id="@+id/setting_btn"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/setting_icon" />
+        <!-- 음성 인식 버튼 -->
+        <Button
+            android:id="@+id/voice_recognition_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/voice_recognition_icon" />
 
-        </LinearLayout>
+        <!-- 검색 결과창 -->
+        <ListView
+            android:id="@+id/searchResultList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"/>
 
-    </RelativeLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+</LinearLayout>

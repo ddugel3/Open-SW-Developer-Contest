@@ -448,6 +448,90 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //경로 안내 자세한 정보 버튼 클릭
+        detailInfo_path_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int totalDistance = 0; //총거리
+                int crosswalk_number = 0; //횡단보도 개수
+                int overpass_number = 0; // 육교 개수
+                int undergroundWalkway_number = 0; //지하보도 개수
+                int tunnel_number = 0; //터널 개수
+                int number = 0; //임시 숫자
+                String message_simple = ""; //실제 경로 안내 간단한 형태
+                String message_detail = "<===== 자세한 정보 =====>\n"; //실제 경로 안내 자세한 형태
+
+
+                NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
+
+                for( int i=0; i<nodeListPlacemark.getLength(); i++ ) {
+                    NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
+
+                    for( int j=0; j<nodeListPlacemarkItem.getLength(); j++ ) {
+                        String str = "";
+                        int index = 0;
+                        System.out.println(nodeListPlacemarkItem.item(j).getNodeName());
+                        if( nodeListPlacemarkItem.item(j).getNodeName().equals("description") ) {
+                            str = nodeListPlacemarkItem.item(j).getTextContent().trim();
+                            index = str.indexOf(",");
+                            if(index == -1){
+                                message_detail += str + "\n";
+                            }
+                        }
+                        else if(nodeListPlacemarkItem.item(j).getNodeName().equals("tmap:facilityType")){
+                            System.out.println(nodeListPlacemarkItem.item(j).getTextContent().trim());
+                            if(nodeListPlacemarkItem.item(j).getTextContent().trim() != ""){
+                                number = Integer.parseInt(nodeListPlacemarkItem.item(j).getTextContent().trim());
+                                switch (number){
+                                    case 1: //교량
+                                        break;
+                                    case 2: //터널
+                                        tunnel_number++;
+                                        break;
+                                    case 3: //고가도로
+                                        break;
+                                    case 11: //일반보행자도로
+                                        break;
+                                    case 12: //육교
+                                        overpass_number++;
+                                        break;
+                                    case 14: //지하보도
+                                        undergroundWalkway_number++;
+                                        break;
+                                    case 15: //횡단보도
+                                        crosswalk_number++;
+                                        break;
+                                    case 16: //대형시설물이동통로
+                                        break;
+                                    case 17: //계단
+                                        break;
+                                }
+                            }
+
+
+
+                        }
+                        else if(nodeListPlacemarkItem.item(j).getNodeName().equals("tmap:distance")){
+                            totalDistance += Integer.parseInt(nodeListPlacemarkItem.item(j).getTextContent().trim());
+                        }
+                    }
+                }
+                message_simple = "총 거리 : " + totalDistance/2 + "m" + "\n" +
+                        "횡단보도 개수 : " + crosswalk_number/2 + "\n" +
+                        "육교 개수 : " + overpass_number/2 + "\n" +
+                        "지하보도 개수 : " + undergroundWalkway_number/2 + "\n" +
+                        "터널 개수 : " + tunnel_number/2 + "\n";
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                builder.setTitle("출발 : " + startMarker.getName() + "\n" + "도착 : " + endMarker.getName());
+                builder.setMessage(message_simple + message_detail);
+
+                AlertDialog alertDialog = builder.create();
+
+                alertDialog.show();
+            }
+        });
 
         //현위치 표시 버튼 클릭 이벤트
         showCurPosition_btn.setOnClickListener(new View.OnClickListener() {

@@ -10,6 +10,11 @@
 
     <uses-feature android:name="android.hardware.camera.any" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
+    <uses-permission android:name="android.permission.READ_OWNER_DATA" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,7 +26,6 @@
         android:theme="@style/Theme.Open_sw"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <activity
             android:name=".FeedbackActivity"
             android:exported="false">
@@ -53,7 +57,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

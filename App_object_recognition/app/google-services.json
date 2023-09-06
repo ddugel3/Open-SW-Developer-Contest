@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "16810248657",
+    "project_id": "opencv-android-8e53d",
+    "storage_bucket": "opencv-android-8e53d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16810248657:android:f2c6baa698e7f335cfb8f0",
+        "android_client_info": {
+          "package_name": "com.example.open_sw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16810248657-6frjf75rpmj3i0o6qloqd57f22pmlvg1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.open_sw",
+            "certificate_hash": "ae6bde7ce154182749b4bb30e8a8dd78ab8a00c1"
+          }
+        },
+        {
+          "client_id": "16810248657-h7me0apu9icj1gfr2ft159v8h583aj9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA70G6ZxenvmnwE8dUzpuUEL4QMGp0b1_4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16810248657-h7me0apu9icj1gfr2ft159v8h583aj9b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

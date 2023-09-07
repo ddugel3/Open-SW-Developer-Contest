@@ -12,14 +12,15 @@
     <FrameLayout
         android:id="@+id/searchTab"
         android:layout_width="match_parent"
-        android:layout_height="154dp"
+        android:layout_height="wrap_content"
         android:background="#BDDE94">
 
         <!-- 장소 UI -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
             <!-- 타입 선택 UI -->
@@ -166,7 +167,7 @@
 
     <FrameLayout
         android:layout_width="375dp"
-        android:layout_height="310dp"
+        android:layout_height="380dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@id/cameraView"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -178,6 +179,7 @@
             android:id="@+id/linearLayoutTmap"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/radius_12_white"
             android:orientation="vertical" />
 
 

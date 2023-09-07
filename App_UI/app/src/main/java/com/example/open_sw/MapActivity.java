@@ -18,7 +18,9 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
@@ -59,11 +61,14 @@ import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -78,8 +83,14 @@ import com.skt.Tmap.TMapPolyLine;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class MapActivity extends AppCompatActivity {
+
+
+public class MapActivity extends AppCompatActivity  implements OnInitListener{
 
 
     private Button voice_recognition_btn; // 음성 인식 버튼 추가
@@ -148,6 +159,12 @@ public class MapActivity extends AppCompatActivity {
     private String startName, startAddress, endName, endAddress;
     private double startLatitude, startLongitude, endLatitude, endLongitude;
 
+    // tts 관련 변수 선언
+    private TextToSpeech textToSpeech;
+    private int currentDetailMessageIndex = 0;
+    private String message_detail_string[] = new String[1000];
+    private int pl=0;
+    private Handler handler = new Handler();
 
 
     // 주기적으로 실행할 Runnable
@@ -226,6 +243,9 @@ public class MapActivity extends AppCompatActivity {
 
         // 음성인식
         voice_recognition_btn = findViewById(R.id.voice_recognition_btn);
+
+        // tts
+        textToSpeech = new TextToSpeech(this, this);
 
 
         //-----------------------method-----------------------//
@@ -610,6 +630,7 @@ public class MapActivity extends AppCompatActivity {
                             index = str.indexOf(",");
                             if(index == -1){
                                 message_detail += str + "\n";
+                                message_detail_string[pl++] = str;
                             }
                         }
                         else if(nodeListPlacemarkItem.item(j).getNodeName().equals("tmap:facilityType")){
@@ -664,6 +685,8 @@ public class MapActivity extends AppCompatActivity {
                 AlertDialog alertDialog = builder.create();
 
                 alertDialog.show();
+
+                readAllDetailMessages();
             }
         });
 
@@ -991,15 +1014,83 @@ public class MapActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            int result = textToSpeech.setLanguage(Locale.KOREAN); // TTS 언어 설정 (예: 영어)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                // 언어 데이터가 누락되었거나 지원되지 않는 경우 처리
+                Log.e("TTS", "Language is not supported.");
+            } else {
+                // TTS 초기화 성공
+                // 이제 상세 경로 읽기를 시작할 수 있습니다.
+                // readNextDetailMessage();
+                readAllDetailMessages();
+            }
+        } else {
+            // TTS 초기화 실패 처리
+            Log.e("TTS", "Initialization failed.");
+        }
+    }
+
+    // 모든 상세 메시지 읽기
+    private void readAllDetailMessages() {
+        Pattern pattern = Pattern.compile("\\d+"); // 정규 표현식: 하나 이상의 숫자
+        Handler handler = new Handler();
+        int delay = 0; // 딜레이 시간 (2초)
+
+        for (int i = 0; i < pl; i++) {
+            String message = message_detail_string[i];
+            // 정규 표현식과 일치하는 숫자 추출
+            Matcher matcher = pattern.matcher(message);
+            int num = -1; // 숫자를 저장할 변수, 초기값은 -1
+
+            if (matcher.find()) {
+                String numberStr = matcher.group(); // 일치하는 숫자 부분 추출
+                num = Integer.parseInt(numberStr); // 추출한 숫자 문자열을 정수로 변환
+            }
+
+            String Check = message;
+//            if (num != -1) {
+//                Check += num;
+//                Toast.makeText(this, Check, Toast.LENGTH_SHORT).show();
+//            }
+
+            // 현재 문장을 TTS로 읽고, delay 밀리초 후 다음 문장으로 넘어감
+            final int currentIndex = i;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    textToSpeech.speak(message_detail_string[currentIndex], TextToSpeech.QUEUE_ADD, null, null);
+
+                    // 마지막 문장이면 도착 메시지를 추가로 읽음
+                    if (currentIndex == pl - 1) {
+                        String arrivalMessage = "도착했습니다. 안내를 종료합니다.";
+                        textToSpeech.speak(arrivalMessage, TextToSpeech.QUEUE_ADD, null, null);
+                    }
+                }
+            }, delay); // 딜레이 시간을 현재 인덱스에 따라 증가시킴
+
+
+            delay += num * 100;
+        }
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         processCameraProvider.unbindAll();  // 액티비티가 일시 중단될 때 카메라 사용 해제
     }
 
+    // 액티비티가 종료될 때 TTS를 정리
     @Override
     protected void onDestroy() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
         super.onDestroy();
-        // 액티비티가 종료될 때 스케줄된 작업을 종료합니다.
+
         executor.shutdown();
     }
 

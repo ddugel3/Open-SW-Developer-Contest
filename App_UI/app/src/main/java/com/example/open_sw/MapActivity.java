@@ -101,7 +101,7 @@ public class MapActivity extends AppCompatActivity  implements OnInitListener{
     private int lensFacing = CameraSelector.LENS_FACING_BACK; // 카메라 렌즈 방향 (후면 카메라로 설정)
 
     // 이미지 촬영 간격을 조절하기 위한 변수
-    private static final long CAPTURE_INTERVAL = 5000; // 1초마다 촬영
+    private static final long CAPTURE_INTERVAL = 4000; // 4초마다 촬영
     ImageCapture imageCapture;
 
 
@@ -222,7 +222,7 @@ public class MapActivity extends AppCompatActivity  implements OnInitListener{
         startMarker = new Marker();
         endMarker = new Marker();
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.poi_dot);
-        bitmap2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.poi_star);
+        bitmap2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.blue);
         tMapPoint = new TMapPoint(0,0);
 
         //이동수단 경로 선택 변수 선언
@@ -798,7 +798,7 @@ public class MapActivity extends AppCompatActivity  implements OnInitListener{
                 if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                     bindPreview();
                     bindImageCapture();
-                    executor.scheduleAtFixedRate(captureTask, 3000, CAPTURE_INTERVAL, TimeUnit.MILLISECONDS);
+                    executor.scheduleAtFixedRate(captureTask, 2000, CAPTURE_INTERVAL, TimeUnit.MILLISECONDS);
                 }
                 else {
                 }
@@ -1071,7 +1071,7 @@ public class MapActivity extends AppCompatActivity  implements OnInitListener{
             }, delay); // 딜레이 시간을 현재 인덱스에 따라 증가시킴
 
 
-            delay += num * 100;
+            delay += num * 1300;
         }
     }
 

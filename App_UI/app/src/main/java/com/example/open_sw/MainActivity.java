@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         startMarker = new Marker();
         endMarker = new Marker();
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.poi_dot);
-        bitmap2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.poi_star);
+        bitmap2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.blue);
         tMapPoint = new TMapPoint(0, 0);
 
         //이동수단 경로 선택 변수 선언

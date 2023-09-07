@@ -166,6 +166,7 @@ public class MapActivity extends AppCompatActivity  implements OnInitListener{
     private int pl=0;
     private Handler handler = new Handler();
 
+    private String a = " ";
 
     // 주기적으로 실행할 Runnable
     private final Runnable captureTask = new Runnable() {
@@ -298,10 +299,8 @@ public class MapActivity extends AppCompatActivity  implements OnInitListener{
                 // onDataChange 메서드는 데이터가 변경될 때 호출됩니다.
                 // 데이터 스냅샷에서 값을 가져와서 String으로 변환합니다.
                 String value = dataSnapshot.child("message").getValue(String.class);
-
-
-
-                // 변경된 값을 로그에 출력합니다.
+                textToSpeech.speak(value, TextToSpeech.QUEUE_ADD, null, null);
+               // 변경된 값을 로그에 출력합니다.
                 Log.d("MapActivity", "Value is: " + value);
                 Toast.makeText(MapActivity.this, "Value is: " + value, Toast.LENGTH_SHORT).show();
             }

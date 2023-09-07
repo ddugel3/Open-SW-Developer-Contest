@@ -6,11 +6,11 @@ import time
 from firebase_admin import credentials, initialize_app, storage, db
 
 # Firebase Admin SDK 초기화
-cred = credentials.Certificate('opensw-ffe60-firebase-adminsdk-2773j-6df968948e.json')
+cred = credentials.Certificate('opencv-android-8e53d-firebase-adminsdk-s3htt-a597b3d1ac.json')
 initialize_app(cred, {
-    'serviceAccountId': 'firebase-adminsdk-2773j@opensw-ffe60.iam.gserviceaccount.com',
-    'storageBucket': 'gs://opensw-ffe60.appspot.com',
-    'databaseURL': 'https://opensw-ffe60-default-rtdb.firebaseio.com/'
+    'serviceAccountId': 'firebase-adminsdk-s3htt@opencv-android-8e53d.iam.gserviceaccount.com',
+    'storageBucket': 'gs://opencv-android-8e53d.appspot.com',
+    'databaseURL': 'https://opencv-android-8e53d-default-rtdb.firebaseio.com/'
 })
 
 
@@ -30,7 +30,7 @@ def perform_object_recognition():
 
     # 다운로드할 이미지의 URL
 
-    image_url = "https://firebasestorage.googleapis.com/v0/b/opensw-ffe60.appspot.com/o/item%2Fimage.jpg?alt=media&token=d0355587-80bf-4062-8f31-c3c5cbf903a5"  # 이미지 URL을 여기에 입력하세요
+    image_url = "https://firebasestorage.googleapis.com/v0/b/opencv-android-8e53d.appspot.com/o/item%2Fimage.jpg?alt=media&token=7a79a3eb-63c2-4e16-8052-4cc18e3dea92"  # 이미지 URL을 여기에 입력하세요
 
     # 이미지 다운로드
     response = requests.get(image_url)
@@ -162,11 +162,8 @@ while True:
         # 결과를 Firebase Realtime Database에 저장
         new_result_ref = ref.child('object_recognition_results').set({"message": result})
 
-        # 저장된 결과의 고유 키(데이터베이스 ID)를 얻을 수 있습니다.
-        result_key = new_result_ref.key
-
         # 2초 대기
-        time.sleep(5)
+        time.sleep(2)
 
     except Exception as e:
         # 오류가 발생하면 해당 오류를 출력하고 계속 진행합니다.

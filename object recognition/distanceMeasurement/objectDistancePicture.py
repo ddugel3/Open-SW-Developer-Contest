@@ -88,9 +88,17 @@ def perform_object_recognition():
                 # Object name & distance display
                 if class_name == 'person' or class_name == 'car' or class_name == 'truck' or class_name == 'bicycle' or class_name == 'motorbike' or class_name == 'dog' or class_name == 'traffic light':
                     distance = calculate_distance(w, h, known_widths[class_name], focal_length)
-                    text = "{} Distance {:.2f} meters".format(label, distance)
+                    #text = "{} Distance {:.2f} meters".format(label, distance)
+                    if class_name == "person":
+                        text = "전방 {:.2f}미터 앞에 사람이 있습니다.".format(distance)
+                    elif class_name == "car" :
+                        text = "전방 {:.2f}미터 앞에 차량이 있습니다.".format(distance)
+                    elif (class_name == "truck"):
+                        text = "전방 {:.2f}미터 앞에 트럭이 있습니다.".format(distance)
+                    elif (class_name == "bicycle"):
+                        text = "전방 {:.2f}미터 앞에 자전거가 있습니다.".format(distance)
 
-                    # Traffic light color recognition (red, green)
+# Traffic light color recognition (red, green)
                     if class_name == 'traffic light':
                         roi = img[y:y + h, x:x + w]
                         hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)

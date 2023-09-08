@@ -15,16 +15,20 @@ OpenCV를 이용하여 어떤 프로그램을 제작하면 좋을 지 생각하�
 시각정보를 청각정보로 전달하기위해, TTS & STT 기능을 넣어서 음성 인식 및 텍스트 듣기를 제공합니다.
 
 # Application UI
-<img src="https://github.com/ddugel3/Open-SW-Developer-Contest/assets/104904309/d9491df3-c246-4d4f-8429-d2b16ad35c9b" width="200" height="400"/>
-<img src="https://github.com/ddugel3/Open-SW-Developer-Contest/assets/104904309/a02ace6a-5de3-4b60-9220-4853f9ef0499" width="200" height="400"/>
+<img src="https://github.com/ddugel3/Open-SW-Developer-Contest/assets/104904309/d35c5683-2b1e-4071-ada2-1d30a5d29b68" width="200" height="400"/>
 
-<img src="https://github.com/ddugel3/Open-SW-Developer-Contest/assets/104904309/7b1d29f7-7569-4397-b01f-0aa9f8cf2735" width="200" height="400"/>
+<img src="https://github.com/ddugel3/Open-SW-Developer-Contest/assets/104904309/5e89f157-fd6f-4d10-b10e-ab1b485e7dca" width="200" height="400"/>
 
-<img src="https://github.com/ddugel3/Open-SW-Developer-Contest/assets/104904309/4ac94c09-162d-40ab-8a32-8c8b40ece75c" width="200" height="400"/>
+<img src="https://github.com/ddugel3/Open-SW-Developer-Contest/assets/104904309/b0ae96e5-4346-4557-b5f1-4410fa1a25d8" width="200" height="400"/>
+
+<img src="https://github.com/ddugel3/Open-SW-Developer-Contest/assets/104904309/c5f9d965-fee7-4b8d-9f0b-6a62a0ca7fbc" width="200" height="400"/>
 
 
 # System Architecture
-<img src="https://github.com/ddugel3/Open-SW-Developer-Contest/assets/104899885/7d8f8a00-e1cb-4236-a99a-561285108483"/>
+<img src="https://github.com/ddugel3/Open-SW-Developer-Contest/assets/104904309/f60ab2a4-0eab-4333-a887-20c5dc007022"/>
+
+
+
 
 
 # Main Functions
